@@ -40,13 +40,12 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.AutoGraph
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Hearing
 import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ContainedLoadingIndicator
@@ -297,7 +296,24 @@ fun StatsScreen(
                     collapseFraction = collapseFraction,
                     headerHeight = currentTopBarHeightDp,
                     onBackClick = { navController.popBackStack() },
-                    containerColor = Color.Transparent
+                    containerColor = Color.Transparent,
+                    actions = {
+                        FilledIconButton(
+                            modifier = Modifier
+                                .padding(end = 12.dp),
+                            onClick = statsViewModel::requestStatsRefresh,
+                            enabled = !uiState.isLoading,
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            )
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Refresh,
+                                contentDescription = "Refresh listening stats"
+                            )
+                        }
+                    }
                 )
 
                 RangeTabsHeader(
